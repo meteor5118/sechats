@@ -20,7 +20,7 @@ print "[*] Setting up %s" % interface
 def get_mac(ip_address):
     responses, unanswered = srp(Ether(dst="ff:ff:ff:ff:ff:ff")/ARP(pdst=ip_address), timeout=2, retry=10)
 
-    print responses
+    print responses.show()
 
     for s, r in responses:
         return r['Ether'].src
@@ -83,7 +83,7 @@ def restore_target(gateway_ip, gateway_mac, target_ip, target_mac):
     send(ARP(op=2, psrc=target_ip, hwsrc=target_mac,
              pdst=gateway_ip, hwdst="ff:ff:ff:ff:ff:ff"), count=5)
 
-    os.kill(os.getpid(), signal.SIGINT)
+    os.kill(os.getpid(), signal.SIGKILL)
 
 
 try:
